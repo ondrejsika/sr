@@ -24,7 +24,7 @@
                 <a href="{% url 'sr:rate' girl.pk %}">rate</a>
                 <a href="{% url 'sr:edit_girl' girl.pk %}">edit</a>
             </td>
-            <td>{% rank girl.get_avg_rank %}</td>
+            <td><b>{% rank girl.get_avg_rank %}</b> ({{ girl.get_rank_count }})</td>
             {% for user in users %}
                 <td>{% rank_girl_user girl user %}</td>
             {% endfor %}

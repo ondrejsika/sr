@@ -26,6 +26,13 @@ class Girl(models.Model):
         except ZeroDivisionError:
             return None
 
+    def get_rank_count(self):
+        count = 0
+        for user in User.objects.all():
+            rank = self.get_rank_by_user(user=user)
+            if rank:
+                count += 1
+        return count
 
 class GirlRank(models.Model):
     RANKS = zip(map(lambda n: n/2.0, range(0, 21)), map(lambda n: n/2.0, range(0, 21)))
