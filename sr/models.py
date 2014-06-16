@@ -51,6 +51,7 @@ class Girl(models.Model):
                 min_ranks.append(rank)
             else:
                 return min_ranks
+        return min_ranks
 
     def get_min_rate(self):
         ranks = []
@@ -68,6 +69,7 @@ class Girl(models.Model):
                 min_ranks.append(rank)
             else:
                 return min_ranks
+        return min_ranks
 
     def get_history_max_rate(self):
         min_ranks = []
@@ -80,6 +82,7 @@ class Girl(models.Model):
                 min_ranks.append(rank)
             else:
                 return min_ranks
+        return min_ranks
 
     def get_history_min_rate(self):
         min_ranks = []
@@ -92,6 +95,7 @@ class Girl(models.Model):
                 min_ranks.append(rank)
             else:
                 return min_ranks
+        return min_ranks
 
 
 
