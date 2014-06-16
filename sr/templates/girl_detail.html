@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load sr_tags %}
+
+{% block content %}
+<h1>{{ girl.name }}</h1>
+<table>
+    <tr>
+        <th>Avg</th>
+        <td>{% rank girl.get_avg_rank %}</td>
+    </tr>
+    <tr>
+        <th>Rates</th>
+        <td>{{ girl.get_rank_count }}</td>
+    </tr>
+    <tr>
+        <th>Max (actual)</th>
+        <td>
+            {% for rank in  girl.get_max_rate %}
+                {{ rank.user }}: {{ rank.rank }},
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Min (actual)</th>
+        <td>
+            {% for rank in  girl.get_min_rate %}
+                {{ rank.user }}: {{ rank.rank }},
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Max (history)</th>
+        <td>
+            {% for rank in  girl.get_history_max_rate %}
+                {{ rank.user }}: {{ rank.rank }},
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Min (history)</th>
+        <td>
+            {% for rank in  girl.get_history_min_rate %}
+                {{ rank.user }}: {{ rank.rank }},
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+{% endblock content %}

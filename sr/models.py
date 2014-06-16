@@ -34,6 +34,67 @@ class Girl(models.Model):
                 count += 1
         return count
 
+    def get_max_rate(self):
+        ranks = []
+        min_ranks = []
+        for user in User.objects.all():
+            rank = self.get_rank_by_user(user)
+            if rank:
+                ranks.append(rank)
+        if len(ranks) == 0:
+            return None
+        ranks = sorted(ranks, key=lambda obj: obj.rank)
+        ranks = list(reversed(ranks))
+        min_rank = ranks[0].rank
+        for rank in ranks:
+            if rank.rank == min_rank:
+                min_ranks.append(rank)
+            else:
+                return min_ranks
+
+    def get_min_rate(self):
+        ranks = []
+        min_ranks = []
+        for user in User.objects.all():
+            rank = self.get_rank_by_user(user)
+            if rank:
+                ranks.append(rank)
+        if len(ranks) == 0:
+            return None
+        ranks = sorted(ranks, key=lambda obj: obj.rank)
+        min_rank = ranks[0].rank
+        for rank in ranks:
+            if rank.rank == min_rank:
+                min_ranks.append(rank)
+            else:
+                return min_ranks
+
+    def get_history_max_rate(self):
+        min_ranks = []
+        ranks = GirlRank.objects.filter(girl=self).order_by('-rank')
+        if len(ranks) == 0:
+            return None
+        min_rank = ranks[0].rank
+        for rank in ranks:
+            if rank.rank == min_rank:
+                min_ranks.append(rank)
+            else:
+                return min_ranks
+
+    def get_history_min_rate(self):
+        min_ranks = []
+        ranks = GirlRank.objects.filter(girl=self).order_by('rank')
+        if len(ranks) == 0:
+            return None
+        min_rank = ranks[0].rank
+        for rank in ranks:
+            if rank.rank == min_rank:
+                min_ranks.append(rank)
+            else:
+                return min_ranks
+
+
+
 class GirlRank(models.Model):
     RANKS = zip(map(lambda n: n/2.0, range(0, 21)), map(lambda n: n/2.0, range(0, 21)))
     girl = models.ForeignKey(Girl)

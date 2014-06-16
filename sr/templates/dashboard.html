@@ -26,7 +26,7 @@
     {% for girl in girls %}
         <tr style="{% if forloop.counter|divisibleby:2 == 0 %}background: EEEEEE;{% endif %}">
             <td>
-                <b>{{ girl }}</b>
+                <a href="{% url 'sr:girl_detail' girl.pk %}"><b>{{ girl }}</b></a>
                 {% if girl.facebook_link %}
                     <a href="{{ girl.facebook_link }}" target="_blank">FB</a>
                 {% endif %}

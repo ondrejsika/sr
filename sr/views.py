@@ -66,3 +66,11 @@ def girl_form(request, girl_pk=None):
     return render(request, 'form.html', {
         'form': form,
     })
+
+
+@login_required
+def girl_detail(request, girl_pk):
+    girl = get_object_or_404(Girl, pk=girl_pk)
+    return render(request, 'girl_detail.html', {
+        'girl': girl,
+    })
