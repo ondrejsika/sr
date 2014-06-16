@@ -5,10 +5,22 @@
 {% block content %}
 <table>
     <tr>
-        <th>Girl</th>
-        <th>Avg</th>
+        <th>
+            Girl
+            <a href="?order_by=name">+</a>
+            <a href="?order_by=-name">-</a>
+        </th>
+        <th>
+            Avg
+            <a href="?order_by=-avg">+</a>
+            <a href="?order_by=avg">-</a>
+        </th>
         {% for user in users %}
-            <th>{{ user }}</th>
+            <th>
+                {{ user }}
+                <a href="?order_by=-{{ user.pk }}">+</a>
+                <a href="?order_by={{ user.pk }}">-</a>
+            </th>
         {% endfor %}
     </tr>
     {% for girl in girls %}

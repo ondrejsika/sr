@@ -8,11 +8,32 @@ from django.contrib.auth.models import User
 from .models import Girl
 from .forms import RateForm, GirlForm
 
+def _can_be_int(num):
+    try:
+        int(num)
+        return True
+    except (ValueError, TypeError):
+        return False
 
 @login_required
 def dashboard(request):
+    order_by = request.GET.get('order_by')  # options = 'name', 'avg', user rank (int)
+
     girls = Girl.objects.all()
     users = User.objects.all()
+
+    if order_by in ('name', '-name'):
+        girls = girls.order_by(order_by)
+    elif order_by in ('avg', '-avg'):
+        girls = sorted(girls, key=lambda obj: obj.get_avg_rank())
+        if order_by == '-avg':
+            girls = reversed(girls)
+    elif _can_be_int(order_by):
+        order_by = int(order_by)
+        girls = sorted(girls, key=lambda obj: getattr(obj.get_rank_by_user(abs(order_by)), 'rank', 0))
+        if order_by < 0:
+            girls = reversed(girls)
+
 
     return render(request, 'dashboard.html', {
         'girls': girls,
