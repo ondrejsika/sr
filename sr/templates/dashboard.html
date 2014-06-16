@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load sr_tags %}
+
+
+{% block content %}
+<table>
+    <tr>
+        <th>Girl</th>
+        <th>Avg</th>
+        {% for user in users %}
+            <th>{{ user }}</th>
+        {% endfor %}
+    </tr>
+    {% for girl in girls %}
+        <tr>
+            <td>
+                <b>{{ girl }}</b>
+                {% if girl.facebook_link %}
+                    <a href="{{ girl.facebook_link }}" target="_blank">FB</a>
+                {% endif %}
+                {% if girl.picture_link %}
+                    <a href="{{ girl.picture_link }}" target="_blank">pic</a>
+                {% endif %}
+                <a href="{% url 'sr:rate' girl.pk %}">rate</a>
+                <a href="{% url 'sr:edit_girl' girl.pk %}">edit</a>
+            </td>
+            <td>{% rank girl.get_avg_rank %}</td>
+            {% for user in users %}
+                <td>{% rank_girl_user girl user %}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table
+{% endblock content %}

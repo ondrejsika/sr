@@ -1,0 +1,10 @@
+/test.py
+*.pyc
+*.sqlite3
+*.db
+*.swp
+
+static/*
+.idea
+
+!.gitkeep
