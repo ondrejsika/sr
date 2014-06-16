@@ -22,7 +22,7 @@ class Girl(models.Model):
             if rank:
                 ranks.append(rank.rank)
         try:
-            return sum(ranks) / float(len(ranks))
+            return sum(ranks) / len(ranks)
         except ZeroDivisionError:
             return None
 
