@@ -97,6 +97,8 @@ class Girl(models.Model):
                 return min_ranks
         return min_ranks
 
+    def get_comments_count(self):
+        return self.girlcomment_set.filter(deleted=False).count()
 
 
 class GirlRank(models.Model):
