@@ -28,9 +28,10 @@ class Girl(models.Model):
 
 
 class GirlRank(models.Model):
+    RANKS = zip(map(lambda n: n/2.0, range(0, 21)), map(lambda n: n/2.0, range(0, 21)))
     girl = models.ForeignKey(Girl)
     user = models.ForeignKey(User)
-    rank = models.IntegerField(choices=zip(range(1, 11), range(1, 11)))
+    rank = models.DecimalField(decimal_places=1, max_digits=2, choices=RANKS)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
