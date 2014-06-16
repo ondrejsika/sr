@@ -1,5 +1,16 @@
 {% load sr_tags %}
 
+<title>SR</title>
+
+<style>
+th {
+    text-align: left;
+}
+td {
+    padding-right: 10px;
+}
+</style>
+
 <a href="{% url 'sr:dashboard' %}">dashboard</a>
 <a href="{% url 'sr:add_girl' %}">add girl</a>
 <a href="{% url 'logout' %}">logout</a>

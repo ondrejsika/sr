@@ -12,7 +12,7 @@
         {% endfor %}
     </tr>
     {% for girl in girls %}
-        <tr>
+        <tr style="{% if forloop.counter|divisibleby:2 == 0 %}background: EEEEEE;{% endif %}">
             <td>
                 <b>{{ girl }}</b>
                 {% if girl.facebook_link %}
