@@ -114,3 +114,15 @@ class GirlRank(models.Model):
             return GirlRank.objects.filter(user=user, girl=girl)[0]
         except IndexError:
             return None
+
+
+class GirlComment(models.Model):
+    girl = models.ForeignKey(Girl)
+    user = models.ForeignKey(User)
+    deleted = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+
+    def __unicode__(self):
+        return u'%s: %s, %s' % (self.user, self.girl, self.text[:20])
+

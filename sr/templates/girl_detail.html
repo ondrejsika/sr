@@ -45,4 +45,16 @@
         </td>
     </tr>
 </table>
+
+<h2>Comments</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{% for comment in comments %}
+    <p><b>{{ comment.user }}</b>: {{ comment.text }} ({{ comment.timestamp }})</p>
+{% endfor %}
 {% endblock content %}

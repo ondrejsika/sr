@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import GirlRank, Girl
+from .models import GirlRank, Girl, GirlComment
 
 
 class RateForm(forms.ModelForm):
@@ -40,3 +40,22 @@ class GirlForm(forms.ModelForm):
             obj.save()
         return obj
 
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = GirlComment
+        fields = ('text', )
+
+    def __init__(self, girl, user, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+
+        self.girl = girl
+        self.user = user
+
+    def save(self, commit=True):
+        obj = super(CommentForm, self).save(commit=False)
+        obj.user = self.user
+        obj.girl = self.girl
+        if commit:
+            obj.save()
+        return obj

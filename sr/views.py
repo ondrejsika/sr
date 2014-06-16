@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from .models import Girl
-from .forms import RateForm, GirlForm
+from .forms import RateForm, GirlForm, CommentForm
 
 def _can_be_int(num):
     try:
@@ -71,6 +71,13 @@ def girl_form(request, girl_pk=None):
 @login_required
 def girl_detail(request, girl_pk):
     girl = get_object_or_404(Girl, pk=girl_pk)
+    comments = girl.girlcomment_set.filter(deleted=False).order_by('-timestamp')
+    comment_form = CommentForm(girl=girl, user=request.user, data=request.POST or None)
+    if comment_form.is_valid():
+        comment_form.save()
+        return HttpResponseRedirect('')
     return render(request, 'girl_detail.html', {
         'girl': girl,
+        'comments': comments,
+        'comment_form': comment_form,
     })
