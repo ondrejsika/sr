@@ -9,6 +9,9 @@ class Girl(models.Model):
     picture_link = models.URLField(null=True, blank=True)
     nominated_by = models.ForeignKey(User)
 
+    class Meta:
+        ordering = ('-pk', )
+
     def __unicode__(self):
         return u'%s' % self.name
 
