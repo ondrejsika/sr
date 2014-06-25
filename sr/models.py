@@ -144,5 +144,5 @@ class Stream(models.Model):
         ordering = ('-timestamp', )
 
     def __unicode__(self):
-        return u'%s: %s (%s)' % (self.user.username, self.text[:20], self.timestamp)
+        return u'%s: %s (%s)' % (self.user, self.text[:20], self.timestamp)
 
