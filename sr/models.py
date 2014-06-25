@@ -135,3 +135,14 @@ class GirlComment(models.Model):
     def __unicode__(self):
         return u'%s: %s, %s' % (self.user, self.girl, self.text[:20])
 
+class Stream(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+
+    class Meta:
+        ordering = ('-timestamp', )
+
+    def __unicode__(self):
+        return u'%s: %s (%s)' % (self.user.username, self.text[:20], self.timestamp)
+

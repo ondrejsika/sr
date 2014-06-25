@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
 
-from .models import Girl
+from .models import Girl, Stream
 from .forms import RateForm, GirlForm, CommentForm
 
 def _can_be_int(num):
@@ -21,6 +21,7 @@ def dashboard(request):
 
     girls = Girl.objects.all()
     users = User.objects.all()
+    stream = Stream.objects.all()[:53]
 
     if order_by in ('name', '-name'):
         girls = girls.order_by(order_by)
@@ -38,6 +39,7 @@ def dashboard(request):
     return render(request, 'dashboard.html', {
         'girls': girls,
         'users': users,
+        'stream': stream,
     })
 
 
@@ -46,7 +48,8 @@ def rate(request, girl_pk):
     girl = get_object_or_404(Girl, pk=girl_pk)
     form = RateForm(girl=girl, user=request.user, data=request.POST or None)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        Stream(user=request.user, text=u'rated %s with %s points' % (girl.name, obj.rank)).save()
         return HttpResponseRedirect(reverse('sr:dashboard'))
     return render(request, 'form.html', {
         'form': form,
@@ -61,7 +64,12 @@ def girl_form(request, girl_pk=None):
     else:
         form = GirlForm(user=request.user, data=request.POST or None)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        if not girl_pk:
+            Stream(user=request.user, text=u'added %s' % (obj.name)).save()
+        else:
+            Stream(user=request.user, text=u'edited %s profile' % (obj.name)).save()
+
         return HttpResponseRedirect(reverse('sr:dashboard'))
     return render(request, 'form.html', {
         'form': form,
@@ -74,7 +82,8 @@ def girl_detail(request, girl_pk):
     comments = girl.girlcomment_set.filter(deleted=False).order_by('-timestamp')
     comment_form = CommentForm(girl=girl, user=request.user, data=request.POST or None)
     if comment_form.is_valid():
-        comment_form.save()
+        obj = comment_form.save()
+        Stream(user=request.user, text=u'commented %s: %s' % (girl.name, obj.text)).save()
         return HttpResponseRedirect('')
     return render(request, 'girl_detail.html', {
         'girl': girl,

@@ -43,4 +43,9 @@
         </tr>
     {% endfor %}
 </table>
+<hr>
+<p><b>Timeline</b></p>
+{% for msg in stream %}
+<p><b>{{ msg.user }}</b> {{ msg.text }} - {{ msg.timestamp }}</p>
+{% endfor %}
 {% endblock content %}
